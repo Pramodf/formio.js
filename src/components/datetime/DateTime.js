@@ -40,9 +40,9 @@ export class DateTimeComponent extends BaseComponent {
   }
 
   // This select component can handle multiple items on its own.
-  createWrapper() {
-    return false;
-  }
+  // createWrapper() {
+  //   return false;
+  // }
 
   getLocaleFormat() {
     let format = '';
@@ -62,8 +62,9 @@ export class DateTimeComponent extends BaseComponent {
     return {
       altInput: true,
       clickOpens: true,
-      enableDate: true,
-      mode: this.component.multiple ? 'multiple' : 'single',
+			enableDate: true,
+			// mode: this.component.multiple ? 'multiple' : 'single',
+      mode: 'single',
       enableTime: _get(this.component, 'enableTime', true),
       noCalendar: !_get(this.component, 'enableDate', true),
       altFormat: this.component.useLocaleSettings
@@ -180,5 +181,42 @@ export class DateTimeComponent extends BaseComponent {
 
       calendar.setDate(value ? new Date(value) : new Date(), false);
     }
-  }
+	}
+
+
+	removeValue(index) {
+		if (this.data.hasOwnProperty(this.component.key)) {
+			if (index !== 0) {
+				var tdAdd = this.ce('td');
+				this.data[this.component.key].splice(index, 1);
+				this.triggerChange();
+				if (this.data && this.data.hasOwnProperty(this.component.key)) {
+					this.setValue(this.data[this.component.key], {
+						noUpdateEvent: true
+					});
+				}
+			}
+		}
+	}
+
+	onChange(flags, fromRoot) {
+		flags = flags || {};
+		if (!flags.noValidate) {
+			this.pristine = true;
+		}
+		// Set the changed variable.
+		var changed = {
+			component: this.component,
+			value: this.value,
+			flags: flags
+		};
+
+		// Emit the change.
+		this.emit('componentChange', changed);
+
+		// Bubble this change up to the top.
+		if (this.root && !fromRoot) {
+			this.root.triggerChange(flags, changed);
+		}
+	}
 }

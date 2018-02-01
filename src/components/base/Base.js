@@ -639,8 +639,10 @@ export class BaseComponent {
       tr.appendChild(td);
 
       if (!this.shouldDisable) {
-        let tdAdd = this.ce('td');
-        tdAdd.appendChild(this.removeButton(index));
+				let tdAdd = this.ce('td');
+				if (index !== 0) {
+					tdAdd.appendChild(this.removeButton(index));
+				}
         tr.appendChild(tdAdd);
       }
 
