@@ -709,7 +709,7 @@ export class BaseComponent {
     }
     else {
       addButton.appendChild(addIcon);
-      addButton.appendChild(this.text(this.component.addAnother || ' Add Another'));
+      addButton.appendChild(this.text(this.component.addAnother || ' Add '));
       return addButton;
     }
   }

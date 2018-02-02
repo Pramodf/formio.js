@@ -2198,7 +2198,9 @@ var BaseComponent = function () {
 
         if (!_this.shouldDisable) {
           var tdAdd = _this.ce('td');
-          tdAdd.appendChild(_this.removeButton(index));
+          if (index !== 0) {
+            tdAdd.appendChild(_this.removeButton(index));
+          }
           tr.appendChild(tdAdd);
         }
 
@@ -2271,7 +2273,7 @@ var BaseComponent = function () {
         return addButton;
       } else {
         addButton.appendChild(addIcon);
-        addButton.appendChild(this.text(this.component.addAnother || ' Add Another'));
+        addButton.appendChild(this.text(this.component.addAnother || ' Add '));
         return addButton;
       }
     }
@@ -5462,14 +5464,13 @@ var DateTimeComponent = exports.DateTimeComponent = function (_BaseComponent) {
      */
 
   }, {
-    key: 'createWrapper',
+    key: 'getLocaleFormat',
 
     // This select component can handle multiple items on its own.
-    value: function createWrapper() {
-      return false;
-    }
-  }, {
-    key: 'getLocaleFormat',
+    // createWrapper() {
+    //   return false;
+    // }
+
     value: function getLocaleFormat() {
       var format = '';
 
@@ -5575,6 +5576,44 @@ var DateTimeComponent = exports.DateTimeComponent = function (_BaseComponent) {
       }
     }
   }, {
+    key: 'removeValue',
+    value: function removeValue(index) {
+      if (this.data.hasOwnProperty(this.component.key)) {
+        if (index !== 0) {
+          var tdAdd = this.ce('td');
+          this.data[this.component.key].splice(index, 1);
+          this.triggerChange();
+          if (this.data && this.data.hasOwnProperty(this.component.key)) {
+            this.setValue(this.data[this.component.key], {
+              noUpdateEvent: true
+            });
+          }
+        }
+      }
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(flags, fromRoot) {
+      flags = flags || {};
+      if (!flags.noValidate) {
+        this.pristine = true;
+      }
+      // Set the changed variable.
+      var changed = {
+        component: this.component,
+        value: this.value,
+        flags: flags
+      };
+
+      // Emit the change.
+      this.emit('componentChange', changed);
+
+      // Bubble this change up to the top.
+      if (this.root && !fromRoot) {
+        this.root.triggerChange(flags, changed);
+      }
+    }
+  }, {
     key: 'defaultDate',
     get: function get() {
       return (0, _utils.getDateSetting)(this.component.defaultDate);
@@ -5588,7 +5627,8 @@ var DateTimeComponent = exports.DateTimeComponent = function (_BaseComponent) {
         altInput: true,
         clickOpens: true,
         enableDate: true,
-        mode: this.component.multiple ? 'multiple' : 'single',
+        // mode: this.component.multiple ? 'multiple' : 'single',
+        mode: 'single',
         enableTime: (0, _get4.default)(this.component, 'enableTime', true),
         noCalendar: !(0, _get4.default)(this.component, 'enableDate', true),
         altFormat: this.component.useLocaleSettings ? this.getLocaleFormat() : (0, _utils.convertFormatToFlatpickr)((0, _get4.default)(this.component, 'format', '')),

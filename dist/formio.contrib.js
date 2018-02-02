@@ -974,7 +974,9 @@ var BaseComponent = function () {
 
         if (!_this.shouldDisable) {
           var tdAdd = _this.ce('td');
-          tdAdd.appendChild(_this.removeButton(index));
+          if (index !== 0) {
+            tdAdd.appendChild(_this.removeButton(index));
+          }
           tr.appendChild(tdAdd);
         }
 
@@ -1047,7 +1049,7 @@ var BaseComponent = function () {
         return addButton;
       } else {
         addButton.appendChild(addIcon);
-        addButton.appendChild(this.text(this.component.addAnother || ' Add Another'));
+        addButton.appendChild(this.text(this.component.addAnother || ' Add '));
         return addButton;
       }
     }
