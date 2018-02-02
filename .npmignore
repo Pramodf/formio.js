@@ -1,9 +1,9 @@
 _site
-app
-docs
-gulp
-src
-test
+/app
+/docs
+/gulp
+/src
+/test
 _config.dev.yml
 _config.yml
 .babelrc
@@ -17,5 +17,5 @@ dump.rdb
 .DS_Store
 .bower.json
 node_modules
-bower_components
+/bower_components
 .idea
