@@ -747,7 +747,7 @@ export class BaseComponent {
   removeButton(index) {
     let removeButton = this.ce('button', {
       type: 'button',
-      class: 'btn btn-default btn-secondary',
+      class: 'btn btn-danger btn-secondary',
       tabindex: '-1'
     });
 

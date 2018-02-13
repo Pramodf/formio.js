@@ -2308,7 +2308,7 @@ var BaseComponent = function () {
 
       var removeButton = this.ce('button', {
         type: 'button',
-        class: 'btn btn-default btn-secondary',
+        class: 'btn btn-danger btn-secondary',
         tabindex: '-1'
       });
 
@@ -5212,7 +5212,7 @@ var DataGridComponent = exports.DataGridComponent = function (_FormioComponents)
       this.rows[index] = {};
       var element = this.ce('tr', null, [this.component.components.map(function (col, colIndex) {
         return _this5.buildComponent(col, colIndex, row, index, data);
-      }), !this.shouldDisable ? this.ce('td', null, this.removeButton(index)) : null]);
+      }), !this.shouldDisable && index !== 0 ? this.ce('td', null, this.removeButton(index)) : null]);
       element.data = (0, _cloneDeep3.default)(row);
       return element;
     }

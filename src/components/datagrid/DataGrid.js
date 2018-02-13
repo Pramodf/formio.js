@@ -130,7 +130,7 @@ export class DataGridComponent extends FormioComponents {
     const element = this.ce('tr', null,
       [
         this.component.components.map((col, colIndex) => this.buildComponent(col, colIndex, row, index, data)),
-        !this.shouldDisable ? this.ce('td', null, this.removeButton(index)) : null
+        (!this.shouldDisable && index !== 0) ? this.ce('td', null, this.removeButton(index)) : null
       ]
     )
     element.data = _cloneDeep(row);
